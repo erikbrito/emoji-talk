@@ -1,14 +1,20 @@
 <template>
   <div class="home">
+    
     <img alt="Emoji Talk" src="../assets/logo.png" class="logo">
+    
     <div class="formLogin">
+      
       <form @submit.prevent="onSubmit"> <!-- Aqui eu falo para quando eu der um submit ele responder com a função onSubmit -->
+        
         <div class="errorMessage" v-if="errorMessage"> {{errorMessage}} </div>
+        
         <div class="field-area">
           <label for="input-username">Nome do Usuario</label>
           <input type="text" :class="{'error':rules.username}" id="input-username" v-model="form.username" placeholder="Seu nome de usuário">
           <span class="error-message" v-show="rules.username"> {{rules.username}} </span>
         </div>
+
         <div class="field-area">
           <label for="input-password">Senha</label>
           <input type="password" :class="{'error':rules.password}" id="input-password" v-model="form.password" placeholder="Sua senha">
@@ -16,23 +22,15 @@
         </div>
 
         <div class="field-area">
-          <p class="label-emoji"> Selecione seu Emoji: {{form.emoji}} </p>
-          <div class="emoji-list" :class="{'error':rules.emoji}">
-            <span class="emoji" :class="{'selected':emoji == form.emoji}" 
-            v-for="emoji in emojis" :key="emoji" @click="form.emoji = emoji">
-              {{emoji}}
-            </span>
-          </div>
-          <span class="error-message" v-show="rules.emoji"> {{rules.emoji}} </span>
+          <button type="submit">Entrar</button>
         </div>
 
-        <div class="field-area">
-          <button type="submit">Cadastrar</button>
-        </div>
       </form>
+
       <p class="link-cadastro">
-        <router-link to="/login">Já tenho cadastro</router-link>
+        <router-link to="/">Ainda não tenho cadastro</router-link>
       </p>
+
     </div>
   </div>
 </template>
@@ -45,38 +43,14 @@ export default {
 
   },
   data: () => ({
-    emojis: [
-      "😃",
-      "😂",
-      "😍",
-      "😘",
-      "😝",
-      "😭",
-      "😊",
-      "😔",
-      "😚",
-      "😤",
-      "😨",
-      "🙈",
-      "🙉",
-      "🙊",
-      "🙏",
-      "👊",
-      "👏",
-      "👱",
-      "👸",
-      "💊"
-    ],
     errorMessage: null,
     form: {
       username: null,
-      password: null,
-      emoji: null
+      password: null
     },
     rules: {
       username: null,
-      password: null,
-      emoji: null
+      password: null
     }
   }),
   methods: {
@@ -84,18 +58,20 @@ export default {
       this.rules = {
         username: !this.form.username ? "Nome do usuário deve ser informado!" : false,
         password: !this.form.password ? "Senha deve ser informada!" : false,
-        emoji: !this.form.emoji ? "Um emoji deve ser selecionado!" : false
       }
-      return !this.rules.username && !this.rules.password && !this.rules.emoji
+      return !this.rules.username && !this.rules.password
     },
     async onSubmit() {
       try {
         if(!this.validate()) return;
-        await apiPublic.post("/users", this.form)
-        this.$router.push("/login")
+        const response = await apiPublic.post("/users/authenticate", this.form)
+        localStorage.setItem('token', response.data.token)
+        localStorage.setItem('username', response.data.username)
+        localStorage.setItem('emoji', response.data.emoji)
+        this.$router.push("/chat")
       } catch (error) {
         console.log(error);
-        this.errorMessage = "Não foi possivel concluir o cadastro, você tem certeza que ainda não é cadastrado? "
+        this.errorMessage = "Não foi possivel concluir a autenticação, você tem certeza que já é cadastrado? "
       }
     }
   }

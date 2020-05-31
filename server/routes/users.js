@@ -32,7 +32,6 @@ router.post('/authenticate', async function(req, res, next) {
     }
     const token = jwt.sign({
       username: user.username
-
     }, 'HASH_QUALQUER')
     
     return res.status(200).json({

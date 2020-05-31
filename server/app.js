@@ -30,8 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const verifyAccessToken = require('./routes/middleware/verifyAccessTokenMiddleware')
 
-app.use('/', verifyAccessToken, indexRouter);
 app.use('/users', usersRouter);
+app.use('/', verifyAccessToken, indexRouter);
 
 module.exports = app;
 
