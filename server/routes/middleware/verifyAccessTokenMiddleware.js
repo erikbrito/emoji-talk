@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
       return res.status(400).json({ msg: "Access token informado mas inválido!" })
     }
 
-    const user = await jwt.verify(token[1], 'HASH_QUALQUER')
+    const user = await jwt.verify(token[1], 'STRING_CRIPTOGRAFADA')
     req.body.user = await Users.findOne({username: user.username})
 
     next()

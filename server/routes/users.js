@@ -32,7 +32,7 @@ router.post('/authenticate', async function(req, res, next) {
     }
     const token = jwt.sign({
       username: user.username
-    }, 'HASH_QUALQUER')
+    }, 'STRING_CRIPTOGRAFADA')
     
     return res.status(200).json({
       msg: "Usuario autenticado com sucesso!",
