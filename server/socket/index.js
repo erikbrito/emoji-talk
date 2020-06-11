@@ -23,6 +23,18 @@ module.exports = async (socket) => {
       console.log(error)
   }
 
+    socket.on('sendMessage', async({
+        fromUsername,
+        toUsername,
+        message
+    }) => {
+    const toUser = await userRepository.findByUsername(toUsername)
+        socket.broadcast.to(toUser.socketId).emit('receiveMessage', {
+            from: fromUsername,
+            message
+        })
+    })
+
   socket.on('disconnect', async() => {
     try {
         const user = await userRepository.findBySocketId(socket.id)

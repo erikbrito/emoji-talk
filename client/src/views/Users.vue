@@ -34,7 +34,7 @@ export default {
   display: flex
   flex-direction: column
   .user 
-    cursos: pointer
+    cursor: pointer
     display: flex
     justify-content: flex-end
     margin: 5px 10px

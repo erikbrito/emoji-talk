@@ -18,8 +18,11 @@
         <div class="field-area">
           <p class="label-emoji"> Selecione seu Emoji: {{form.emoji}} </p>
           <div class="emoji-list" :class="{'error':rules.emoji}">
-            <span class="emoji" :class="{'selected':emoji == form.emoji}" 
-            v-for="emoji in emojis" :key="emoji" @click="form.emoji = emoji">
+            <span class="emoji" 
+            :class="{'selected':emoji == form.emoji}" 
+            v-for="emoji in emojis" 
+            :key="emoji" 
+            @click="form.emoji = emoji">
               {{emoji}}
             </span>
           </div>
@@ -39,34 +42,15 @@
 
 <script>
 import {apiPublic} from '../services/api'
+import emojis from '../utils/emojis'
+
 export default {
   name: 'Home',
   components: {
 
   },
   data: () => ({
-    emojis: [
-      "😃",
-      "😂",
-      "😍",
-      "😘",
-      "😝",
-      "😭",
-      "😊",
-      "😔",
-      "😚",
-      "😤",
-      "😨",
-      "🙈",
-      "🙉",
-      "🙊",
-      "🙏",
-      "👊",
-      "👏",
-      "👱",
-      "👸",
-      "💊"
-    ],
+    emojis: emojis,
     errorMessage: null,
     form: {
       username: null,
