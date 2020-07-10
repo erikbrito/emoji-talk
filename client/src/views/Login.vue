@@ -66,6 +66,7 @@ export default {
         if(!this.validate()) return;
         const response = await apiPublic.post("/users/authenticate", this.form)
         localStorage.setItem('token', response.data.token)
+        console.log('login: ' + response.data.token)
         localStorage.setItem('username', response.data.username)
         localStorage.setItem('emoji', response.data.emoji)
         this.$router.push("/users")

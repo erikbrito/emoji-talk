@@ -21,6 +21,7 @@ export default {
         })
         localStorage.setItem(key, JSON.stringify(messages))
         this.messagesObservers.forEach(callback => callback(username, message, isSend))
+        console.log(message)
     },
     getMessages(username) {
         const key = username + '_message'
@@ -34,6 +35,7 @@ export default {
             toUsername: username,
             message
         })
+        // console.log(message)
     },
     async init(token) {
         this.socket = io.connect("http://localhost:3000/", {

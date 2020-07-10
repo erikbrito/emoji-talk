@@ -3,6 +3,7 @@ const userRepository = require('../models/usersRepository')
 
 const extractJWT = async (socket) => {
     const token = socket.request._query['token']
+    console.log('SOCKET: ' + socket.request._query['token'])
     const user = await jwt.verify(token, 'STRING_CRIPTOGRAFADA')
     return user.username
 }
@@ -12,6 +13,7 @@ module.exports = async (socket) => {
     const username = await extractJWT(socket)
     const user = await userRepository.findByUsername(username)
     user.socketId = socket.id
+    console.log('SOCKET-USER: ' + socket.id)
     await user.save()
 
     let users = await userRepository.findOnlineUsers()
@@ -33,6 +35,7 @@ module.exports = async (socket) => {
             from: fromUsername,
             message
         })
+        // console.log(message)
     })
 
   socket.on('disconnect', async() => {

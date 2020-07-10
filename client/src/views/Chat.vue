@@ -18,16 +18,9 @@
     </div>
     <form class="sendbox" v-if="user" @submit.prevent="sendMessage()">
       <div class="input-area">
-        <div class="sandbod-input">{{message.join("")}}</div>
-        <button class="btn-backspace" type="button" @click="backspace">⟵</button>
-      </div>
-      <div class="emoji-list">
-        <div
-          class="emoji"
-          v-for="emoji in emojis"
-          :key="emoji"
-          @click="message.push(emoji)"
-        >{{emoji}}</div>
+        <input type="text" class="sandbod-input" v-model="message">
+        <!-- <div class="sandbod-input">{{message.join("")}}</div> -->
+        <!-- <button class="btn-backspace" type="button" @click="backspace">⟵</button> -->
       </div>
       <button class="btn-send" type="submit">Enviar</button>
     </form>
@@ -36,32 +29,28 @@
 
 <script>
 import socket from "../socket";
-import emojis from "../utils/emojis";
 export default {
   data: () => ({
     user: null,
-    message: [],
-    messages: [],
-    emojis: emojis
+    message: '',
+    messages: []
   }),
   methods: {
-    backspace() {
-      if (this.message == null || this.message.length == 0) return;
-      this.message.pop();
-    },
     sendMessage() {
       if (this.message && this.message.length > 0) {
-        socket.sendMessage(this.user.username, this.message.join(""));
-        this.message = [];
+        socket.sendMessage(this.user.username, this.message);
+        // console.log(this.message)
       }
     }
   },
   beforeMount() {
     socket.init(localStorage.token);
+    console.log('CHAT: ' + localStorage.token)
     socket.addUsersObserver(users => {
       this.user = users.find(
         user => user.username == this.$route.params.username
       );
+      // console.log("3")
     });
     socket.addMessagesObserver((username, message, isSend) => {
         if(username == this.$route.params.username) {
@@ -72,9 +61,11 @@ export default {
   },
   mounted () {
       this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight
+      // console.log("6")
   },
   updated () {
       this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight
+      // console.log("7")
   }
 };
 </script>

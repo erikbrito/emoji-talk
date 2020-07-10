@@ -16,6 +16,7 @@ export default {
   methods: {
     goToChat(user){
       this.$router.push('/chat/' + user.username)
+      // console.log('username: ' + user.username)
     }
   },
   async mounted(){
@@ -23,6 +24,7 @@ export default {
     socket.addUsersObserver(users => {
       this.users = users
     })
+    console.log('Users: ' + localStorage.token)
   }
 }
 </script>
