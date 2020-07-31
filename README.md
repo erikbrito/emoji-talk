@@ -1,2 +1,2 @@
 # emoji-talk
-chat entre usuários com emoji
+Messaging chat between users
