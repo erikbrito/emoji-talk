@@ -9,8 +9,8 @@ var usersRouter = require('./routes/users');
 const cors = require('cors')
 
 const mongoose = require('mongoose');
-//6xIjAX0c22cbQ48X
-mongoose.connect('mongodb+srv://developer:6xIjAX0c22cbQ48X@development-ubzml.mongodb.net/emoji?retryWrites=true&w=majority', {
+
+mongoose.connect('mongodb+srv://nameuser:password@development-ubzml.mongodb.net/emoji?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(()=>{
